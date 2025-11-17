@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<product_spec>
+  <app_overview>
+    <title lang="ko">자동 텍스트 요약 툴 (Streamlit 버전)</title>
+    <platform>Web (Streamlit Cloud 배포)</platform>
+    <purpose lang="ko">사용자가 입력하거나 업로드한 텍스트를 자동으로 요약하여 핵심 내용을 빠르게 파악</purpose>
+    <target_user lang="ko">학생, 연구자, 직장인 등 문서 요약이 필요한 모든 사용자</target_user>
+  </app_overview>
+
+  <core_features>
+    <feature>
+      <title lang="ko">텍스트 요약</title>
+      <description lang="ko">고급 자연어 처리 모델을 이용해 긴 문서를 정확하고 자연스러운 요약으로 변환.
+      - 추출 요약(Extractive): 원문의 핵심 문장 추출
+      - 생성 요약(Abstractive): 원문의 의미를 바탕으로 새롭게 문장 생성
+      - 하이브리드: 추출과 생성을 결합한 고품질 요약</description>
+    </feature>
+    <feature>
+      <title lang="ko">파일 업로드</title>
+      <description lang="ko">TXT, PDF, DOCX 파일 업로드 및 자동 텍스트 추출 후 요약 가능.</description>
+    </feature>
+    <feature>
+      <title lang="ko">요약 옵션 설정</title>
+      <description lang="ko">
+        - 요약 길이: 단어 수(50, 100, 150) 또는 비율(30%, 50%, 70%)로 세부 조정
+        - 요약 방식: 추출 요약 / 생성 요약 / 하이브리드(추출+생성)
+        - 문장 수: 원하는 요약 문장 수 지정(3~10문장)
+      </description>
+    </feature>
+    <feature>
+      <title lang="ko">결과 다운로드</title>
+      <description lang="ko">요약 결과를 TXT 또는 PDF 파일로 다운로드 가능.</description>
+    </feature>
+    <feature>
+      <title lang="ko">키워드 추출 (선택)</title>
+      <description lang="ko">요약 결과에서 주요 키워드 자동 추출 기능을 추가 제공.</description>
+    </feature>
+    <feature>
+      <title lang="ko">다국어 번역 (선택)</title>
+      <description lang="ko">요약된 결과를 영어 등 다른 언어로 자동 번역할 수 있음.</description>
+    </feature>
+  </core_features>
+
+  <user_journey>
+    <steps>
+      <step lang="ko">사용자가 텍스트를 직접 입력하거나 문서 파일을 업로드</step>
+      <step lang="ko">요약 방식(추출형 / 생성형) 및 요약 길이 설정</step>
+      <step lang="ko">‘요약하기’ 버튼 클릭 → 모델이 자동으로 요약 수행</step>
+      <step lang="ko">요약된 결과를 화면에서 확인 및 파일로 다운로드</step>
+    </steps>
+  </user_journey>
+
+  <tech_stack>
+    <frontend>Streamlit (Python 기반 웹 프레임워크)</frontend>
+    <backend>Python (Hugging Face Transformers, OpenAI GPT API)</backend>
+    <ai_models>
+      <model name="gogamza/kobart-base-v2" type="한국어 추출 요약"/>
+      <model name="KETI-AIR/ke-t5-base-ko" type="한국어 생성 요약"/>
+      <model name="facebook/bart-large-cnn" type="영어 추출 요약"/>
+      <model name="openai:gpt-4-turbo-preview" type="다국어 생성 요약(고급)"/>
+    </ai_models>
+    <libraries>
+      <library>transformers</library>
+      <library>torch</library>
+      <library>pdfplumber</library>
+      <library>python-docx</library>
+      <library>openai</library>
+      <library>streamlit</library>
+    </libraries>
+    <database>데이터베이스 불필요 (실시간 요약 처리)</database>
+    <auth>로그인 불필요, 기본 공개형 서비스</auth>
+  </tech_stack>
+
+  <system_structure>
+    <file_structure>
+      <file>app.py — Streamlit 메인 앱</file>
+      <file>summarizer.py — 요약 로직 및 모델 호출</file>
+      <file>utils/file_loader.py — TXT, PDF, DOCX 파일 텍스트 추출</file>
+      <file>utils/downloader.py — 요약 결과 다운로드 함수</file>
+      <file>utils/translator.py — Papago/Google/OpenAI API를 활용한 다국어 번역</file>
+      <file>requirements.txt — 프로젝트 의존성 관리</file>
+    </file_structure>
+  </system_structure>
+
+  <design_direction>
+    <style lang="ko">심플하고 직관적인 미니멀 UI. 결과는 카드 형태로 깔끔하게 표시.</style>
+    <inspiration>Notion 스타일, ChatGPT 인터페이스, 흰색 + 회색톤 중심</inspiration>
+    <ui_elements>
+      <element>텍스트 입력창 및 파일 업로더</element>
+      <element>요약 옵션 선택 박스 (요약 방식, 길이)</element>
+      <element>결과 출력 카드</element>
+      <element>다운로드 버튼 및 복사 버튼</element>
+    </ui_elements>
+  </design_direction>
+
+  <deployment>
+    <platform>Streamlit Cloud</platform>
+    <repo>GitHub 연동 (자동 배포)</repo>
+    <url_example>https://text-summarizer.streamlit.app</url_example>
+    <requirements>
+      <item>Python 3.10+</item>
+      <item>Streamlit 최신 버전</item>
+      <item>OpenAI API Key (환경 변수로 설정)</item>
+    </requirements>
+  </deployment>
+
+  <priorities>
+    <must_have>
+      <item lang="ko">정확하고 빠른 자동 요약 기능</item>
+      <item lang="ko">다양한 텍스트 파일 형식 지원</item>
+      <item lang="ko">Streamlit Cloud에서 원활히 실행</item>
+    </must_have>
+    <nice_to_have>
+      <item lang="ko">요약 결과에서 주요 키워드 자동 추출</item>
+      <item lang="ko">요약 결과 다국어 번역 지원</item>
+      <item lang="ko">요약 전/후 단어 수 비교 및 통계 표시</item>
+      <item lang="ko">요약 처리 시간 측정 및 표시</item>
+    </nice_to_have>
+  </priorities>
+
+  <future_expansion>
+    <idea lang="ko">다중 문서 비교 요약 기능 (논문 비교용)</idea>
+    <idea lang="ko">음성 입력 후 텍스트 변환 및 요약 기능</idea>
+    <idea lang="ko">사용자 계정 기반 저장 기능 (Firebase 연동)</idea>
+    <idea lang="ko">브라우저 확장 프로그램 버전 (Chrome Extension)</idea>
+  </future_expansion>
+</product_spec>
